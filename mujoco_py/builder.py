@@ -37,6 +37,7 @@ def get_nvidia_lib_dir():
     paths = sorted(paths)
     if len(paths) == 0:
         print('38')
+        raise RuntimeError
         return None
     if len(paths) > 1:
         print("Choosing the latest nvidia driver: %s, among %s" % (paths[-1], str(paths)))
