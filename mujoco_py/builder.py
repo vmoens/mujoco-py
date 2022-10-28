@@ -27,7 +27,6 @@ def get_nvidia_lib_dir():
     exists_nvidia_smi = subprocess.call("type nvidia-smi", shell=True,
                                         stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0
     if not exists_nvidia_smi:
-        print('30')
         return None
     docker_path = '/usr/local/nvidia/lib64'
     if exists(docker_path):
@@ -36,8 +35,6 @@ def get_nvidia_lib_dir():
     paths = glob.glob('/usr/lib/nvidia')
     paths = sorted(paths)
     if len(paths) == 0:
-        print('38')
-        raise RuntimeError
         return None
     if len(paths) > 1:
         print("Choosing the latest nvidia driver: %s, among %s" % (paths[-1], str(paths)))
@@ -72,7 +69,8 @@ The easy solution is to `import mujoco_py` _before_ `import glfw`.
     elif sys.platform == 'linux':
         _ensure_set_env_var("LD_LIBRARY_PATH", lib_path)
         # if os.getenv('MUJOCO_PY_FORCE_CPU') is None and get_nvidia_lib_dir() is not None:
-        _ensure_set_env_var("LD_LIBRARY_PATH", get_nvidia_lib_dir())
+        if "nvidia" not in os.environ.get("LD_LIBRARY_PATH", ""):
+            _ensure_set_env_var("LD_LIBRARY_PATH", get_nvidia_lib_dir())
         Builder = LinuxGPUExtensionBuilder
         # else:
         #     Builder = LinuxCPUExtensionBuilder
