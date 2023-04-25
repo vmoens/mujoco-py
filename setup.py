@@ -31,7 +31,7 @@ class Build(DistutilsBuild):
 
 
 setup(
-    name='free-mujoco-py',
+    name='mujoco-py',
     version=__version__,  # noqa
     author='OpenAI Robotics Team',
     author_email='robotics@openai.com',
@@ -43,11 +43,4 @@ setup(
     package_data={'mujoco_py': ['generated/*.so']},
     install_requires=read_requirements_file('requirements.txt'),
     tests_require=read_requirements_file('requirements.dev.txt'),
-    python_requires='>=3.6',
-    classifiers=[
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3 :: Only',
-    ],
 )
