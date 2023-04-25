@@ -65,6 +65,8 @@ The easy solution is to `import mujoco_py` _before_ `import glfw`.
 ''')
 
     lib_path = os.path.join(mujoco_path, "bin")
+    print("lib_path:", lib_path)
+    print("LD_LIBRARY_PATH", os.environ.get("LD_LIBRARY_PATH", None))
     if sys.platform == 'darwin':
         Builder = MacExtensionBuilder
     elif sys.platform == 'linux':
@@ -125,6 +127,7 @@ def _ensure_set_env_var(var_name, lib_path):
 def load_dynamic_ext(name, path):
     """ Load compiled shared object and return as python module. """
     loader = ExtensionFileLoader(name, path)
+    print("loading name/path", name, path)
     return loader.load_module()
 
 
