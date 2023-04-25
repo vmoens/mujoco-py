@@ -4,7 +4,7 @@ from sys import platform
 import mujoco_py
 
 if platform == "linux" or platform == "linux2":
-    os.environ["MUJOCO_PY_MUJOCO_PATH"] = os.path.join(mujoco_py.__path__[0], "binaries", "linux", "mujoco-2.1.3")
+    os.environ["MUJOCO_PY_MUJOCO_PATH"] = os.path.join(mujoco_py.__path__[0], "binaries", "linux", "mujoco210")
     LIBPATH = os.path.join(mujoco_py.__path__[0], "binaries", "linux", "mujoco210", "bin")
     # LIBPATH = ":".join([LIBPATH, os.path.join(mujoco_py.__path__[0], "binaries", "linux", "mujoco-2.1.3", "lib")])
 elif platform == "darwin":
