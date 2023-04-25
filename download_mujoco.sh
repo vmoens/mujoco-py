@@ -1,5 +1,5 @@
 mkdir -p mujoco_py/binaries/linux \
-    && wget https://mujoco.org/download/mujoco210-linux-x86_64.tar.gz -O mujoco.tar.gz \
+    && wget https://github.com/deepmind/mujoco/releases/download/2.1.3/mujoco-2.1.3-linux-x86_64.tar.gz -O mujoco.tar.gz \
     && tar -xf mujoco.tar.gz -C mujoco_py/binaries/linux \
     && rm mujoco.tar.gz
 
