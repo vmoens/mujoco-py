@@ -22,6 +22,7 @@ import subprocess
 
 from mujoco_py.utils import discover_mujoco, MISSING_KEY_MESSAGE
 
+NVIDIA_PATH = os.environ.get("NVIDIA_PATH", '/usr/lib/nvidia')
 
 def get_nvidia_lib_dir():
     exists_nvidia_smi = subprocess.call("type nvidia-smi", shell=True,
@@ -32,7 +33,7 @@ def get_nvidia_lib_dir():
     if exists(docker_path):
         return docker_path
     # paths = glob.glob('/usr/lib/nvidia-[0-9][0-9][0-9]')
-    paths = glob.glob('/usr/lib/nvidia')
+    paths = glob.glob(NVIDIA_PATH)
     paths = sorted(paths)
     if len(paths) == 0:
         return None
