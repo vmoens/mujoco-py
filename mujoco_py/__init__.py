@@ -1,16 +1,26 @@
 import os
+
 from sys import platform
 import mujoco_py
+
 if platform == "linux" or platform == "linux2":
-    os.environ["MUJOCO_PY_MUJOCO_PATH"] = os.path.join(mujoco_py.__path__[0], "binaries", "linux", "mujoco210")
-    os.environ["LD_LIBRARY_PATH"] = os.path.join(mujoco_py.__path__[0], "binaries", "linux", "mujoco210", "bin")
+    os.environ["MUJOCO_PY_MUJOCO_PATH"] = os.path.join(mujoco_py.__path__[0], "binaries", "linux", "mujoco-2.1.3")
+    LIBPATH = os.path.join(mujoco_py.__path__[0], "binaries", "linux", "mujoco-2.1.3", "bin")
+    LIBPATH = ":".join([LIBPATH, os.path.join(mujoco_py.__path__[0], "binaries", "linux", "mujoco-2.1.3", "lib")])
 elif platform == "darwin":
     os.environ["MUJOCO_PY_MUJOCO_PATH"] = os.path.join(mujoco_py.__path__[0], "binaries", "macos", "mujoco210")
-    os.environ["LD_LIBRARY_PATH"] = os.path.join(mujoco_py.__path__[0], "binaries", "macos", "mujoco210", "bin")
+    LIBPATH = os.path.join(mujoco_py.__path__[0], "binaries", "macos", "mujoco-2.1.3", "bin")
 elif platform == "win32":
     os.environ["MUJOCO_PY_MUJOCO_PATH"] = os.path.join(mujoco_py.__path__[0], "binaries", "windows", "mujoco210")
-    os.environ["LD_LIBRARY_PATH"] = os.path.join(mujoco_py.__path__[0], "binaries", "windows", "mujoco210", "bin")
+    LIBPATH = os.path.join(mujoco_py.__path__[0], "binaries", "windows", "mujoco-2.1.3", "bin")
+else:
+    raise NotImplementedError(platform)
 
+curr = os.environ.get('LD_LIBRARY_PATH', None)
+if curr:
+    os.environ["LD_LIBRARY_PATH"] = f"{curr}:{LIBPATH}"
+else:
+    os.environ["LD_LIBRARY_PATH"] = LIBPATH
 #!/usr/bin/env python
 from mujoco_py.builder import cymj, ignore_mujoco_warnings, functions, MujocoException
 from mujoco_py.generated import const

@@ -22,6 +22,7 @@ from cffi import FFI
 from mujoco_py.utils import discover_mujoco
 from mujoco_py.version import get_version
 
+NVIDIA_PATH = os.environ.get("NVIDIA_PATH", '/usr/lib/nvidia')
 
 def get_nvidia_lib_dir():
     exists_nvidia_smi = subprocess.call("type nvidia-smi", shell=True,
@@ -31,7 +32,8 @@ def get_nvidia_lib_dir():
     docker_path = '/usr/local/nvidia/lib64'
     if exists(docker_path):
         return docker_path
-    paths = glob.glob('/usr/lib/nvidia-[0-9][0-9][0-9]')
+    # paths = glob.glob('/usr/lib/nvidia-[0-9][0-9][0-9]')
+    paths = glob.glob(NVIDIA_PATH)
     paths = sorted(paths)
     if len(paths) == 0:
         return None
@@ -67,11 +69,12 @@ The easy solution is to `import mujoco_py` _before_ `import glfw`.
         Builder = MacExtensionBuilder
     elif sys.platform == 'linux':
         _ensure_set_env_var("LD_LIBRARY_PATH", lib_path)
-        if os.getenv('MUJOCO_PY_FORCE_CPU') is None and get_nvidia_lib_dir() is not None:
+        # if os.getenv('MUJOCO_PY_FORCE_CPU') is None and get_nvidia_lib_dir() is not None:
+        if "nvidia" not in os.environ.get("LD_LIBRARY_PATH", ""):
             _ensure_set_env_var("LD_LIBRARY_PATH", get_nvidia_lib_dir())
-            Builder = LinuxGPUExtensionBuilder
-        else:
-            Builder = LinuxCPUExtensionBuilder
+        Builder = LinuxGPUExtensionBuilder
+        # else:
+        #     Builder = LinuxCPUExtensionBuilder
     elif sys.platform.startswith("win"):
         var = "PATH"
         if var not in os.environ or lib_path not in os.environ[var].split(";"):
