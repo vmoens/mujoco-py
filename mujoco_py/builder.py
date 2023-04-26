@@ -278,8 +278,8 @@ class LinuxCPUExtensionBuilder(MujocoExtensionBuilder):
     def _build_impl(self):
         so_file_path = super()._build_impl()
         # Removes absolute paths to libraries. Allows for dynamic loading.
-        fix_shared_library(so_file_path, 'libmujoco210.so', f'{os.environ["LD_LIBRARY_PATH"]}/libmujoco210.so')
-        fix_shared_library(so_file_path, 'libglewosmesa.so', f'{os.environ["LD_LIBRARY_PATH"]}/libglewosmesa.so')
+        fix_shared_library(so_file_path, 'libmujoco210.so', f'{os.environ["MUJOCO_PY_MUJOCO_PATH"]}/libmujoco210.so')
+        fix_shared_library(so_file_path, 'libglewosmesa.so', f'{os.environ["MUJOCO_PY_MUJOCO_PATH"]}/libglewosmesa.so')
         return so_file_path
 
 
@@ -295,10 +295,10 @@ class LinuxGPUExtensionBuilder(MujocoExtensionBuilder):
 
     def _build_impl(self):
         so_file_path = super()._build_impl()
-        fix_shared_library(so_file_path, 'libOpenGL.so', f'{os.environ["LD_LIBRARY_PATH"]}/libOpenGL.so.0')
-        fix_shared_library(so_file_path, 'libEGL.so', f'{os.environ["LD_LIBRARY_PATH"]}/libEGL.so.1')
-        fix_shared_library(so_file_path, 'libmujoco210.so', f'{os.environ["LD_LIBRARY_PATH"]}/libmujoco210.so')
-        fix_shared_library(so_file_path, 'libglewegl.so', f'{os.environ["LD_LIBRARY_PATH"]}/libglewegl.so')
+        fix_shared_library(so_file_path, 'libOpenGL.so', f'{os.environ["MUJOCO_PY_MUJOCO_PATH"]}/libOpenGL.so.0')
+        fix_shared_library(so_file_path, 'libEGL.so', f'{os.environ["MUJOCO_PY_MUJOCO_PATH"]}/libEGL.so.1')
+        fix_shared_library(so_file_path, 'libmujoco210.so', f'{os.environ["MUJOCO_PY_MUJOCO_PATH"]}/libmujoco210.so')
+        fix_shared_library(so_file_path, 'libglewegl.so', f'{os.environ["MUJOCO_PY_MUJOCO_PATH"]}/libglewegl.so')
         return so_file_path
 
 
